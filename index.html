@@ -41,12 +41,18 @@
     button:hover {
       background: #e57d00;
     }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
   <h2>🔍 Review My English Workbook – <span id="day-info">Day X</span></h2>
   <p><strong>Goal:</strong> B1 to B2 Fluency | <strong>Focus:</strong> Listening & Speaking</p>
   <p class="small">📅 <span id="today-date"></span></p>
+  <p class="small" id="task-description"></p>
   <hr />
 
   <h3>🟢 Part 1: Warm-Up (10 mins)</h3>
@@ -109,18 +115,72 @@
   </ol>
   <p>🎯 Help me become fluent and accurate step by step. Don’t skip small errors. Give me structured corrections and learning tips.</p>
 
+  <div class="nav-buttons">
+    <button onclick="changeDay(-1)">⬅️ Previous Day</button>
+    <button onclick="changeDay(1)">Next Day ➡️</button>
+  </div>
+
   <button onclick="window.print()">🖨️ Print or Save as PDF</button>
 
   <script>
-    (function() {
-      const startDate = new Date('2024-09-01T00:00:00');
+    const tasks = [
+      "Self-Reflection in English — journal your feelings, describe thoughts.",
+      "Shadowing a TED Talk — repeat native sentences out loud.",
+      "Describe Your Room — speak about your surroundings.",
+      "Real-Life Dialogue Simulation — repeat both speakers.",
+      "Story Retelling — watch & retell a short story.",
+      "Tongue Twisters — pronunciation clarity & speed.",
+      "Movie Clip Dubbing — dub over a muted scene.",
+      "English Rant Day — complain about something fluently.",
+      "3-Minute Challenge — talk nonstop on a topic.",
+      "Mimic Emotions — copy native tone & feelings.",
+      "Speak Like a Teacher — explain a simple concept.",
+      "WhatsApp Voice Notes — record & review yourself.",
+      "Debate Practice — argue your point in English.",
+      "Podcast + 5 Facts — summarize what you heard.",
+      "Emoji Story — create a story from emojis.",
+      "Role-Play Interview — answer job questions.",
+      "Fix My English — find grammar errors in your talk.",
+      "Watch & React — share your reaction in English.",
+      "Mystery Object — describe, don’t name it.",
+      "Describe Last Video — retell it in detail.",
+      "Talk with AI — have a live conversation.",
+      "Audio Diary — record your day’s story.",
+      "Translate Emotion — describe an emotional scene.",
+      "Would You Rather — answer fully.",
+      "Life Advice — pretend to give advice.",
+      "Describe a Dream — explain a strange dream.",
+      "Voice Note Swap — exchange recordings.",
+      "Mini Story Creation — invent a short fiction.",
+      "React to News — share opinions on a headline.",
+      "Fluency Show — talk freely for 3 mins."
+    ];
+
+    function loadDay() {
       const today = new Date();
-      const dayNumber = Math.floor((today - startDate) / (1000 * 60 * 60 * 24)) + 1;
-      document.getElementById('day-info').innerText = `Day ${dayNumber}`;
-      document.getElementById('today-date').innerText = today.toDateString();
-    })();
+      document.getElementById("today-date").innerText = today.toDateString();
+
+      let currentDay = parseInt(localStorage.getItem("missionDay")) || 1;
+      if (currentDay < 1) currentDay = 1;
+      if (currentDay > 30) currentDay = 30;
+
+      document.getElementById("day-info").innerText = `Day ${currentDay}`;
+      document.getElementById("task-description").innerText = tasks[currentDay - 1];
+    }
+
+    function changeDay(delta) {
+      let currentDay = parseInt(localStorage.getItem("missionDay")) || 1;
+      currentDay += delta;
+      if (currentDay < 1) currentDay = 1;
+      if (currentDay > 30) currentDay = 30;
+      localStorage.setItem("missionDay", currentDay);
+      loadDay();
+    }
+
+    loadDay();
   </script>
 </body>
 </html>
+
 
 
