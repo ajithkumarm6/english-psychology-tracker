@@ -3,141 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mission C2: Daily English Tracker</title>
+  <title>My English Workbook Preview</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #121212;
-      color: #ffffff;
+      font-family: Arial, sans-serif;
+      background: #fdfdfd;
+      color: #333;
+      max-width: 800px;
+      margin: auto;
       padding: 20px;
     }
-    h1, h2, h3 {
-      color: #90caf9;
+    h2, h3 {
+      color: #1A73E8;
     }
     textarea {
       width: 100%;
+      min-height: 60px;
+      margin-bottom: 15px;
       padding: 10px;
-      margin: 10px 0 20px;
-      border: none;
-      border-radius: 8px;
-      background: #1e1e1e;
-      color: white;
+      font-size: 16px;
       resize: vertical;
     }
+    .small {
+      font-size: 14px;
+      color: #777;
+    }
     button {
-      background: #2196f3;
-      color: white;
+      background: #FE9301;
       border: none;
+      color: white;
       padding: 10px 20px;
-      border-radius: 10px;
       font-size: 16px;
-      cursor: pointer;
       margin-top: 20px;
+      cursor: pointer;
+      border-radius: 8px;
     }
     button:hover {
-      background: #1976d2;
-    }
-    .section {
-      margin-bottom: 30px;
-    }
-    #output {
-      margin-top: 30px;
-      background: #1e1e1e;
-      padding: 20px;
-      border-radius: 10px;
-      white-space: pre-wrap;
+      background: #e57d00;
     }
   </style>
 </head>
 <body>
-  <h1>Mission C2: Daily English Tracker (Day 1)</h1>
+  <h2>🔍 Review My English Workbook – <span id="day-info">Day X</span></h2>
+  <p><strong>Goal:</strong> B1 to B2 Fluency | <strong>Focus:</strong> Listening & Speaking</p>
+  <p class="small">📅 <span id="today-date"></span></p>
+  <hr />
 
-  <form id="trackerForm">
-    <div class="section">
-      <h2>Part 1: Warm-Up (15 minutes)</h2>
-      <label>1. Write 3 things you're grateful for today:</label>
-      <textarea name="grateful"></textarea>
+  <h3>🟢 Part 1: Warm-Up (10 mins)</h3>
+  <p><strong>3 Things I'm Grateful For:</strong></p>
+  <textarea placeholder="- I'm grateful for ..."></textarea>
+  <textarea placeholder="- I'm grateful for ..."></textarea>
+  <textarea placeholder="- I'm grateful for ..."></textarea>
 
-      <label>2. Write 3 things you want to improve in your English:</label>
-      <textarea name="improve"></textarea>
+  <p><strong>3 Things I Want to Improve in English:</strong></p>
+  <textarea placeholder="- I want to improve ..."></textarea>
+  <textarea placeholder="- I want to improve ..."></textarea>
+  <textarea placeholder="- I want to improve ..."></textarea>
 
-      <label>3. Describe your current mood in 2-3 sentences:</label>
-      <textarea name="mood"></textarea>
-    </div>
+  <p><strong>My Mood Today:</strong></p>
+  <textarea placeholder="Happy, tired, focused, etc."></textarea>
 
-    <div class="section">
-      <h2>Part 2: Listening Practice (30 minutes)</h2>
-      <label>1. Title or Topic:</label>
-      <textarea name="listening_title"></textarea>
+  <h3>🟢 Part 2: Listening Practice (20 mins)</h3>
+  <p><strong>Video/Topic:</strong></p>
+  <textarea placeholder="Enter video title or topic..."></textarea>
 
-      <label>2. Source:</label>
-      <textarea name="source"></textarea>
+  <p><strong>5 Phrases/Words I Heard:</strong></p>
+  <textarea placeholder="- Word 1 ..."></textarea>
+  <textarea placeholder="- Word 2 ..."></textarea>
+  <textarea placeholder="- Word 3 ..."></textarea>
+  <textarea placeholder="- Word 4 ..."></textarea>
+  <textarea placeholder="- Word 5 ..."></textarea>
 
-      <label>3. Write 5 new words or phrases you heard:</label>
-      <textarea name="words"></textarea>
+  <p><strong>Summary:</strong></p>
+  <textarea placeholder="Write a brief summary..."></textarea>
 
-      <label>4. Write a short summary of what you watched:</label>
-      <textarea name="summary"></textarea>
-    </div>
+  <p><strong>Questions/Thoughts:</strong></p>
+  <textarea placeholder="Any questions or thoughts..."></textarea>
 
-    <div class="section">
-      <h2>Part 3: Speaking Practice (30 minutes)</h2>
-      <label>1. What did you do today?</label>
-      <textarea name="today"></textarea>
+  <h3>🟢 Part 3: Speaking Practice (20 mins)</h3>
+  <p><strong>Today’s Topic:</strong></p>
+  <textarea placeholder="Describe the topic..."></textarea>
 
-      <label>2. What do you plan for tomorrow?</label>
-      <textarea name="tomorrow"></textarea>
+  <p><strong>My Spoken Answer:</strong></p>
+  <textarea placeholder="Your spoken response..."></textarea>
 
-      <label>3. Talk about your favorite memory:</label>
-      <textarea name="memory"></textarea>
+  <p><strong>Was it Difficult? Why?</strong></p>
+  <textarea placeholder="Explain any difficulties..."></textarea>
 
-      <label>4. How did you feel while speaking? What was difficult?</label>
-      <textarea name="speaking_reflection"></textarea>
-    </div>
+  <h3>🟢 Part 4: Fun Practice Challenge (10 mins)</h3>
+  <p><strong>Challenge Type (choose one):</strong> Describe image, Speed question, Story retelling, Role play, Word association, Sentence building</p>
+  <textarea placeholder="Select a challenge and describe..."></textarea>
 
-    <div class="section">
-      <h2>Part 5: Grammar Focus (15 minutes)</h2>
-      <label>1. Fill in the blanks with correct verb forms:</label>
-      <textarea name="verbs"></textarea>
+  <p><strong>My Answer:</strong></p>
+  <textarea placeholder="Your answer..."></textarea>
 
-      <label>2. Correct the mistakes:</label>
-      <textarea name="mistakes"></textarea>
-    </div>
+  <p><strong>Words I Struggled With:</strong></p>
+  <textarea placeholder="List struggling words..."></textarea>
 
-    <div class="section">
-      <h2>Part 6: Reflection + Goals (15 minutes)</h2>
-      <label>1. What did you learn today?</label>
-      <textarea name="learned"></textarea>
+  <hr />
+  <h3>✅ Please analyze:</h3>
+  <ol>
+    <li>What mistakes did I make in each part?</li>
+    <li>Corrected sentences with explanation</li>
+    <li>How can I improve next time?</li>
+  </ol>
+  <p>🎯 Help me become fluent and accurate step by step. Don’t skip small errors. Give me structured corrections and learning tips.</p>
 
-      <label>2. What was easy? What was hard?</label>
-      <textarea name="easyhard"></textarea>
-
-      <label>3. What will you focus on tomorrow?</label>
-      <textarea name="tomorrow_focus"></textarea>
-    </div>
-
-    <button type="submit">Finish & Export</button>
-  </form>
-
-  <div id="output"></div>
+  <button onclick="window.print()">🖨️ Print or Save as PDF</button>
 
   <script>
-    const form = document.getElementById('trackerForm');
-    const output = document.getElementById('output');
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const data = new FormData(form);
-      let summary = '--- Daily English Workbook Report ---\n';
-      for (let [key, value] of data.entries()) {
-        summary += `\n${key.replace(/_/g, ' ')}:\n${value}\n`;
-      }
-      output.textContent = summary;
-      navigator.clipboard.writeText(summary).then(() => alert('Copied to clipboard! You can paste it in ChatGPT for review.'));
-    });
+    (function() {
+      const startDate = new Date('2024-09-01T00:00:00');
+      const today = new Date();
+      const dayNumber = Math.floor((today - startDate) / (1000 * 60 * 60 * 24)) + 1;
+      document.getElementById('day-info').innerText = `Day ${dayNumber}`;
+      document.getElementById('today-date').innerText = today.toDateString();
+    })();
   </script>
 </body>
 </html>
+
 
