@@ -1,136 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>English + Psychology Tracker</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mission C2: Daily English Tracker</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
       background-color: #121212;
-      color: #fff;
+      color: #ffffff;
+      padding: 20px;
     }
-    header {
-      background-color: #1f1f1f;
-      padding: 1rem;
-      text-align: center;
+    h1, h2, h3 {
+      color: #90caf9;
     }
-    .day {
-      border: 1px solid #333;
-      border-radius: 10px;
-      padding: 1rem;
-      margin: 1rem;
-      background-color: #1e1e1e;
-    }
-    .day.locked {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-    .checklist label {
-      display: block;
-      margin: 0.5rem 0;
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 20px;
+      border: none;
+      border-radius: 8px;
+      background: #1e1e1e;
+      color: white;
+      resize: vertical;
     }
     button {
-      background-color: #333;
-      color: #fff;
+      background: #2196f3;
+      color: white;
       border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:disabled {
-      background-color: #555;
-    }
-    iframe {
-      width: 100%;
-      height: 200px;
-      border: none;
+      padding: 10px 20px;
       border-radius: 10px;
-      margin-top: 1rem;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: #1976d2;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    #output {
+      margin-top: 30px;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>30-Day English + Psychology Tracker</h1>
-    <p>Improve listening & speaking while learning Psychology</p>
-  </header>
-  <main id="days-container"></main>
+  <h1>Mission C2: Daily English Tracker (Day 1)</h1>
+
+  <form id="trackerForm">
+    <div class="section">
+      <h2>Part 1: Warm-Up (15 minutes)</h2>
+      <label>1. Write 3 things you're grateful for today:</label>
+      <textarea name="grateful"></textarea>
+
+      <label>2. Write 3 things you want to improve in your English:</label>
+      <textarea name="improve"></textarea>
+
+      <label>3. Describe your current mood in 2-3 sentences:</label>
+      <textarea name="mood"></textarea>
+    </div>
+
+    <div class="section">
+      <h2>Part 2: Listening Practice (30 minutes)</h2>
+      <label>1. Title or Topic:</label>
+      <textarea name="listening_title"></textarea>
+
+      <label>2. Source:</label>
+      <textarea name="source"></textarea>
+
+      <label>3. Write 5 new words or phrases you heard:</label>
+      <textarea name="words"></textarea>
+
+      <label>4. Write a short summary of what you watched:</label>
+      <textarea name="summary"></textarea>
+    </div>
+
+    <div class="section">
+      <h2>Part 3: Speaking Practice (30 minutes)</h2>
+      <label>1. What did you do today?</label>
+      <textarea name="today"></textarea>
+
+      <label>2. What do you plan for tomorrow?</label>
+      <textarea name="tomorrow"></textarea>
+
+      <label>3. Talk about your favorite memory:</label>
+      <textarea name="memory"></textarea>
+
+      <label>4. How did you feel while speaking? What was difficult?</label>
+      <textarea name="speaking_reflection"></textarea>
+    </div>
+
+    <div class="section">
+      <h2>Part 5: Grammar Focus (15 minutes)</h2>
+      <label>1. Fill in the blanks with correct verb forms:</label>
+      <textarea name="verbs"></textarea>
+
+      <label>2. Correct the mistakes:</label>
+      <textarea name="mistakes"></textarea>
+    </div>
+
+    <div class="section">
+      <h2>Part 6: Reflection + Goals (15 minutes)</h2>
+      <label>1. What did you learn today?</label>
+      <textarea name="learned"></textarea>
+
+      <label>2. What was easy? What was hard?</label>
+      <textarea name="easyhard"></textarea>
+
+      <label>3. What will you focus on tomorrow?</label>
+      <textarea name="tomorrow_focus"></textarea>
+    </div>
+
+    <button type="submit">Finish & Export</button>
+  </form>
+
+  <div id="output"></div>
+
   <script>
-    const days = 30;
-    const container = document.getElementById('days-container');
+    const form = document.getElementById('trackerForm');
+    const output = document.getElementById('output');
 
-    function loadProgress() {
-      return JSON.parse(localStorage.getItem('progress')) || Array(days).fill(false);
-    }
-
-    function saveProgress(progress) {
-      localStorage.setItem('progress', JSON.stringify(progress));
-    }
-
-    const progress = loadProgress();
-
-    function renderDays() {
-      container.innerHTML = '';
-      for (let i = 0; i < days; i++) {
-        const dayDiv = document.createElement('div');
-        dayDiv.className = 'day';
-        if (i > 0 && !progress[i - 1]) dayDiv.classList.add('locked');
-
-        const title = document.createElement('h2');
-        title.textContent = `Day ${i + 1}`;
-        dayDiv.appendChild(title);
-
-        const checklist = document.createElement('div');
-        checklist.className = 'checklist';
-
-        const tasks = [
-          'Watch the psychology video and write 3 takeaways',
-          'Repeat 3 English sentences from the video',
-          'Shadow 1 minute of the video',
-          'Speak for 2 minutes about the topic',
-          'Write 1 reflection sentence about your speaking'
-        ];
-
-        const checkboxes = [];
-
-        tasks.forEach((task, idx) => {
-          const label = document.createElement('label');
-          const checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          checkbox.disabled = i > 0 && !progress[i - 1];
-          checkboxes.push(checkbox);
-          label.appendChild(checkbox);
-          label.append(` ${task}`);
-          checklist.appendChild(label);
-        });
-
-        const yt = document.createElement('iframe');
-        yt.src = `https://www.youtube.com/embed/?listType=search&list=psychology+english+day+${i+1}`;
-        dayDiv.appendChild(yt);
-
-        const completeButton = document.createElement('button');
-        completeButton.textContent = 'Mark Day as Complete';
-        completeButton.disabled = !checkboxes.every(cb => cb.checked);
-
-        checkboxes.forEach(cb => cb.addEventListener('change', () => {
-          completeButton.disabled = !checkboxes.every(cb => cb.checked);
-        }));
-
-        completeButton.addEventListener('click', () => {
-          progress[i] = true;
-          saveProgress(progress);
-          renderDays();
-        });
-
-        dayDiv.appendChild(checklist);
-        dayDiv.appendChild(completeButton);
-        container.appendChild(dayDiv);
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const data = new FormData(form);
+      let summary = '--- Daily English Workbook Report ---\n';
+      for (let [key, value] of data.entries()) {
+        summary += `\n${key.replace(/_/g, ' ')}:\n${value}\n`;
       }
-    }
-
-    renderDays();
+      output.textContent = summary;
+      navigator.clipboard.writeText(summary).then(() => alert('Copied to clipboard! You can paste it in ChatGPT for review.'));
+    });
   </script>
 </body>
 </html>
+
