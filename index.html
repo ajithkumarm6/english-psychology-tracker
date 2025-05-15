@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My English Workbook Preview</title>
   <style>
     body {
@@ -22,7 +21,6 @@
       margin-bottom: 15px;
       padding: 10px;
       font-size: 16px;
-      resize: vertical;
     }
     .small {
       font-size: 14px;
@@ -34,77 +32,77 @@
       color: white;
       padding: 10px 20px;
       font-size: 16px;
-      margin-top: 20px;
+      margin-top: 10px;
+      margin-right: 10px;
       cursor: pointer;
       border-radius: 8px;
     }
     button:hover {
       background: #e57d00;
     }
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
   </style>
 </head>
 <body>
-  <h2>🔍 Review My English Workbook – <span id="day-info">Day X</span></h2>
+
+  <h2>🔍 Review My English Workbook – <span id="day-info"></span></h2>
   <p><strong>Goal:</strong> B1 to B2 Fluency | <strong>Focus:</strong> Listening & Speaking</p>
   <p class="small">📅 <span id="today-date"></span></p>
-  <p class="small" id="task-description"></p>
   <hr />
 
-  <h3>🟢 Part 1: Warm-Up (10 mins)</h3>
-  <p><strong>3 Things I'm Grateful For:</strong></p>
-  <textarea placeholder="- I'm grateful for ..."></textarea>
-  <textarea placeholder="- I'm grateful for ..."></textarea>
-  <textarea placeholder="- I'm grateful for ..."></textarea>
+  <div id="task-description"></div>
 
-  <p><strong>3 Things I Want to Improve in English:</strong></p>
-  <textarea placeholder="- I want to improve ..."></textarea>
-  <textarea placeholder="- I want to improve ..."></textarea>
-  <textarea placeholder="- I want to improve ..."></textarea>
+  <div id="textareas-section">
+    <h3>🟢 Part 1: Warm-Up (10 mins)</h3>
+    <p><strong>3 Things I'm Grateful For:</strong></p>
+    <textarea data-key="grateful1" placeholder="- I'm grateful for ..."></textarea>
+    <textarea data-key="grateful2"></textarea>
+    <textarea data-key="grateful3"></textarea>
 
-  <p><strong>My Mood Today:</strong></p>
-  <textarea placeholder="Happy, tired, focused, etc."></textarea>
+    <p><strong>3 Things I Want to Improve in English:</strong></p>
+    <textarea data-key="improve1" placeholder="- I want to improve ..."></textarea>
+    <textarea data-key="improve2"></textarea>
+    <textarea data-key="improve3"></textarea>
 
-  <h3>🟢 Part 2: Listening Practice (20 mins)</h3>
-  <p><strong>Video/Topic:</strong></p>
-  <textarea placeholder="Enter video title or topic..."></textarea>
+    <p><strong>My Mood Today:</strong></p>
+    <textarea data-key="mood" placeholder="Happy, tired, focused, etc."></textarea>
 
-  <p><strong>5 Phrases/Words I Heard:</strong></p>
-  <textarea placeholder="- Word 1 ..."></textarea>
-  <textarea placeholder="- Word 2 ..."></textarea>
-  <textarea placeholder="- Word 3 ..."></textarea>
-  <textarea placeholder="- Word 4 ..."></textarea>
-  <textarea placeholder="- Word 5 ..."></textarea>
+    <h3>🟢 Part 2: Listening Practice (20 mins)</h3>
+    <p><strong>Video/Topic:</strong></p>
+    <textarea data-key="listening-topic"></textarea>
 
-  <p><strong>Summary:</strong></p>
-  <textarea placeholder="Write a brief summary..."></textarea>
+    <p><strong>5 Phrases/Words I Heard:</strong></p>
+    <textarea data-key="word1" placeholder="- Word 1 ..."></textarea>
+    <textarea data-key="word2"></textarea>
+    <textarea data-key="word3"></textarea>
+    <textarea data-key="word4"></textarea>
+    <textarea data-key="word5"></textarea>
 
-  <p><strong>Questions/Thoughts:</strong></p>
-  <textarea placeholder="Any questions or thoughts..."></textarea>
+    <p><strong>Summary:</strong></p>
+    <textarea data-key="summary"></textarea>
 
-  <h3>🟢 Part 3: Speaking Practice (20 mins)</h3>
-  <p><strong>Today’s Topic:</strong></p>
-  <textarea placeholder="Describe the topic..."></textarea>
+    <p><strong>Questions/Thoughts:</strong></p>
+    <textarea data-key="questions"></textarea>
 
-  <p><strong>My Spoken Answer:</strong></p>
-  <textarea placeholder="Your spoken response..."></textarea>
+    <h3>🟢 Part 3: Speaking Practice (20 mins)</h3>
+    <p><strong>Today’s Topic:</strong></p>
+    <textarea data-key="speaking-topic"></textarea>
 
-  <p><strong>Was it Difficult? Why?</strong></p>
-  <textarea placeholder="Explain any difficulties..."></textarea>
+    <p><strong>My Spoken Answer:</strong></p>
+    <textarea data-key="spoken-answer"></textarea>
 
-  <h3>🟢 Part 4: Fun Practice Challenge (10 mins)</h3>
-  <p><strong>Challenge Type (choose one):</strong> Describe image, Speed question, Story retelling, Role play, Word association, Sentence building</p>
-  <textarea placeholder="Select a challenge and describe..."></textarea>
+    <p><strong>Was it Difficult? Why?</strong></p>
+    <textarea data-key="difficulty"></textarea>
 
-  <p><strong>My Answer:</strong></p>
-  <textarea placeholder="Your answer..."></textarea>
+    <h3>🟢 Part 4: Fun Practice Challenge (10 mins)</h3>
+    <p><strong>Challenge Type:</strong></p>
+    <textarea data-key="challenge-type"></textarea>
 
-  <p><strong>Words I Struggled With:</strong></p>
-  <textarea placeholder="List struggling words..."></textarea>
+    <p><strong>My Answer:</strong></p>
+    <textarea data-key="challenge-answer"></textarea>
+
+    <p><strong>Words I Struggled With:</strong></p>
+    <textarea data-key="struggled"></textarea>
+  </div>
 
   <hr />
   <h3>✅ Please analyze:</h3>
@@ -115,72 +113,97 @@
   </ol>
   <p>🎯 Help me become fluent and accurate step by step. Don’t skip small errors. Give me structured corrections and learning tips.</p>
 
-  <div class="nav-buttons">
-    <button onclick="changeDay(-1)">⬅️ Previous Day</button>
-    <button onclick="changeDay(1)">Next Day ➡️</button>
-  </div>
-
+  <button onclick="markComplete()">✔️ Mark This Day Complete</button>
+  <button onclick="nextDay()">Next Day ➡️</button>
+  <button onclick="prevDay()">⬅️ Previous Day</button>
   <button onclick="window.print()">🖨️ Print or Save as PDF</button>
 
   <script>
     const tasks = [
-      "Self-Reflection in English — journal your feelings, describe thoughts.",
-      "Shadowing a TED Talk — repeat native sentences out loud.",
-      "Describe Your Room — speak about your surroundings.",
-      "Real-Life Dialogue Simulation — repeat both speakers.",
-      "Story Retelling — watch & retell a short story.",
-      "Tongue Twisters — pronunciation clarity & speed.",
-      "Movie Clip Dubbing — dub over a muted scene.",
-      "English Rant Day — complain about something fluently.",
-      "3-Minute Challenge — talk nonstop on a topic.",
-      "Mimic Emotions — copy native tone & feelings.",
-      "Speak Like a Teacher — explain a simple concept.",
-      "WhatsApp Voice Notes — record & review yourself.",
-      "Debate Practice — argue your point in English.",
-      "Podcast + 5 Facts — summarize what you heard.",
-      "Emoji Story — create a story from emojis.",
-      "Role-Play Interview — answer job questions.",
-      "Fix My English — find grammar errors in your talk.",
-      "Watch & React — share your reaction in English.",
-      "Mystery Object — describe, don’t name it.",
-      "Describe Last Video — retell it in detail.",
-      "Talk with AI — have a live conversation.",
-      "Audio Diary — record your day’s story.",
-      "Translate Emotion — describe an emotional scene.",
-      "Would You Rather — answer fully.",
-      "Life Advice — pretend to give advice.",
-      "Describe a Dream — explain a strange dream.",
-      "Voice Note Swap — exchange recordings.",
-      "Mini Story Creation — invent a short fiction.",
-      "React to News — share opinions on a headline.",
-      "Fluency Show — talk freely for 3 mins."
+      { title: "Day 1: Self-Reflection in English", desc: "Warm-up day — journal your feelings, practice describing your thoughts." },
+      { title: "Day 2: Shadowing a TED Talk", desc: "Repeat native speakers sentence-by-sentence from a short TED Talk." },
+      { title: "Day 3: \"Describe Your Room\" Challenge", desc: "Record yourself describing your surroundings in full detail." },
+      { title: "Day 4: Real-Life Dialogue Simulation", desc: "Watch a short dialogue and repeat both characters." },
+      { title: "Day 5: Story Retelling", desc: "Watch a short story, then retell it in your own words." },
+      { title: "Day 6: Tongue Twisters", desc: "Practice fun, tricky sentences for clarity and speed." },
+      { title: "Day 7: Movie Clip Dubbing", desc: "Mute a movie scene and record your own voice as the characters." },
+      { title: "Day 8: English Rant Day", desc: "Talk about what annoys you today, like a rant to a friend." },
+      { title: "Day 9: 3-Minute English Challenge", desc: "Talk non-stop about any topic for 3 minutes — no pausing." },
+      { title: "Day 10: Mimic Native Emotions", desc: "Mimic tone and feelings from native videos." },
+      { title: "Day 11: Speak Like a Teacher", desc: "Teach a topic (simple) like you're explaining it to a student." },
+      { title: "Day 12: WhatsApp Voice Notes Day", desc: "Record English voice notes to yourself or friends." },
+      { title: "Day 13: Debate Practice", desc: "Pick a side on a topic and argue in English." },
+      { title: "Day 14: Podcast + 5 Facts", desc: "Listen to a podcast and share 5 facts you learned." },
+      { title: "Day 15: Emoji Story Day", desc: "Use emojis as prompts to create and tell a story." },
+      { title: "Day 16: Role-Play: Job Interview", desc: "Pretend you’re in a job interview — answer questions in full." },
+      { title: "Day 17: Fix My English", desc: "Record a video and find 5 grammar mistakes to fix the next day." },
+      { title: "Day 18: Watch & React", desc: "Watch a funny video and explain your reaction in English." },
+      { title: "Day 19: Mystery Object Game", desc: "Describe an object without naming it — like a guessing game." },
+      { title: "Day 20: Describe the Last Video You Watched", desc: "Retell the last video you watched in detail." },
+      { title: "Day 21: Talk with AI (ChatGPT voice mode)", desc: "Have a spoken conversation using AI voice chat." },
+      { title: "Day 22: Audio Diary Entry", desc: "Speak about your whole day and listen to yourself." },
+      { title: "Day 23: Translate Emotion", desc: "Watch an emotional clip and describe what’s happening and how you’d feel." },
+      { title: "Day 24: Fun Debate Game (Would You Rather)", desc: "Answer 'Would you rather…' questions in long, full answers." },
+      { title: "Day 25: Life Advice in English", desc: "Pretend to give advice to someone in trouble (like a YouTuber)." },
+      { title: "Day 26: Describe a Dream", desc: "Describe a strange or fun dream in full detail." },
+      { title: "Day 27: Voice Note Swap", desc: "Swap recordings with a partner or AI and give feedback." },
+      { title: "Day 28: Mini Story Creation", desc: "Create and record a short fictional story." },
+      { title: "Day 29: React to News Headline", desc: "Read a news headline and share your opinion on it." },
+      { title: "Day 30: Your Fluency Show!", desc: "Record a full 3-minute video of yourself talking naturally — no notes." }
     ];
 
+    let currentDay = parseInt(localStorage.getItem('currentDay')) || 1;
+    let completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]');
+
     function loadDay() {
-      const today = new Date();
-      document.getElementById("today-date").innerText = today.toDateString();
+      document.getElementById('day-info').innerText = `Day ${currentDay}`;
+      document.getElementById('today-date').innerText = new Date().toDateString();
+      const task = tasks[currentDay - 1];
+      document.getElementById('task-description').innerHTML = `<h3>${task.title}</h3><p>${task.desc}</p>`;
 
-      let currentDay = parseInt(localStorage.getItem("missionDay")) || 1;
-      if (currentDay < 1) currentDay = 1;
-      if (currentDay > 30) currentDay = 30;
-
-      document.getElementById("day-info").innerText = `Day ${currentDay}`;
-      document.getElementById("task-description").innerText = tasks[currentDay - 1];
+      document.querySelectorAll('textarea').forEach(textarea => {
+        const key = `day${currentDay}-${textarea.dataset.key}`;
+        textarea.value = localStorage.getItem(key) || '';
+        textarea.oninput = () => localStorage.setItem(key, textarea.value);
+      });
     }
 
-    function changeDay(delta) {
-      let currentDay = parseInt(localStorage.getItem("missionDay")) || 1;
-      currentDay += delta;
-      if (currentDay < 1) currentDay = 1;
-      if (currentDay > 30) currentDay = 30;
-      localStorage.setItem("missionDay", currentDay);
-      loadDay();
+    function markComplete() {
+      if (!completedDays.includes(currentDay)) {
+        completedDays.push(currentDay);
+        localStorage.setItem('completedDays', JSON.stringify(completedDays));
+      }
+      alert("✅ Day marked as complete. Now you can go to the next day.");
+    }
+
+    function nextDay() {
+      if (!completedDays.includes(currentDay)) {
+        alert("❌ Please complete the current day before moving on.");
+        return;
+      }
+      if (currentDay < 30) {
+        currentDay++;
+        localStorage.setItem('currentDay', currentDay);
+        loadDay();
+      } else {
+        alert("🎉 Congratulations! You've completed all 30 days!");
+      }
+    }
+
+    function prevDay() {
+      if (currentDay > 1) {
+        currentDay--;
+        localStorage.setItem('currentDay', currentDay);
+        loadDay();
+      }
     }
 
     loadDay();
   </script>
+
 </body>
 </html>
+
 
 
 
