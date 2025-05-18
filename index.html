@@ -2,157 +2,169 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#1A73E8" />
-  <title>My English Workbook</title>
-  <link rel="manifest" href="manifest.json" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30-Day English Challenge</title>
+  <link rel="manifest" href="manifest.json">
   <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #222;
+      --accent-color: #1a73e8;
+      --button-bg: #fe9301;
+      --button-hover: #e57d00;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121212;
+        --text-color: #f1f1f1;
+        --accent-color: #90caf9;
+        --button-bg: #ffb74d;
+        --button-hover: #ff9800;
+      }
+    }
+
     body {
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
       margin: 0;
-      padding: 16px;
-      background: #fefefe;
-      color: #333;
+      padding: 20px;
     }
+
     h2, h3 {
-      color: #1A73E8;
+      color: var(--accent-color);
     }
+
     textarea {
       width: 100%;
-      min-height: 80px;
-      margin-bottom: 16px;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background: #1A73E8;
-      color: white;
-      border: none;
+      min-height: 120px;
       padding: 12px;
       font-size: 16px;
-      border-radius: 6px;
-      margin: 5px 5px 10px 0;
+      margin: 10px 0;
     }
+
+    button {
+      background: var(--button-bg);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      font-size: 16px;
+      border-radius: 8px;
+      margin: 5px;
+    }
+
     button:hover {
-      background: #0f5bd8;
+      background: var(--button-hover);
     }
-    .small { font-size: 14px; color: #777; }
   </style>
 </head>
 <body>
+  <h2>📘 30-Day English Challenge – <span id="day-info"></span></h2>
+  <p><strong>Goal:</strong> B1 to B2 Fluency | <strong>Focus:</strong> Listening & Speaking</p>
+  <p><strong>Date:</strong> <span id="today-date"></span></p>
+  <hr />
 
-<h2>📘 My English Workbook – <span id="day-info"></span></h2>
-<p class="small" id="task-title"></p>
-<p class="small">📅 <span id="today-date"></span></p>
-<hr />
+  <div id="task-desc"></div>
 
-<h3>🟢 Daily Practice</h3>
-<textarea id="entry" placeholder="Write here your answers for today...\n- What are you grateful for?\n- What video/topic did you listen to?\n- 5 Words or phrases?\n- Your speaking practice?\n- Challenge answer and any mistakes?\n... Everything in one place!"></textarea>
+  <h3>📝 Daily Entry</h3>
+  <textarea id="daily-text" placeholder="Write all your answers, ideas, summaries, etc. here..."></textarea>
 
-<h3>✅ Feedback Prompt</h3>
-<textarea readonly id="feedback-prompt"></textarea>
-
-<h3>🧠 Practice Prompt</h3>
-<textarea readonly id="workbook-prompt"></textarea>
-
-<button onclick="markComplete()">✔️ Mark Complete</button>
-<button onclick="prevDay()">⬅️ Previous Day</button>
-<button onclick="nextDay()">Next Day ➡️</button>
-<button onclick="exportPDF()">📄 Export to PDF</button>
-
-<script>
-const tasks = [
-  { title: "Day 1: Self-Reflection in English", desc: "Journal your feelings, describe your day." },
-  { title: "Day 2: Shadow a TED Talk", desc: "Mimic native speech from a TED clip." },
-  { title: "Day 3: Describe Your Room", desc: "Practice describing your surroundings." },
-  { title: "Day 4: Real-Life Dialogue Simulation", desc: "Repeat both characters from a short video." },
-  { title: "Day 5: Story Retelling", desc: "Retell a video story in your own words." },
-  { title: "Day 6: Tongue Twisters", desc: "Practice fast, tricky sentences." },
-  { title: "Day 7: Movie Clip Dubbing", desc: "Mute and dub a movie scene in English." },
-  { title: "Day 8: English Rant", desc: "Rant about your day or annoyances in English." },
-  { title: "Day 9: 3-Minute Challenge", desc: "Talk for 3 minutes without stopping." },
-  { title: "Day 10: Mimic Emotions", desc: "Match the emotion and tone from a native speaker." },
-  { title: "Day 11: Speak Like a Teacher", desc: "Teach a simple topic in English." },
-  { title: "Day 12: WhatsApp Voice Notes", desc: "Record yourself talking like a message to a friend." },
-  { title: "Day 13: Debate Practice", desc: "Argue a topic from both sides." },
-  { title: "Day 14: Podcast + 5 Facts", desc: "Listen to a podcast, write 5 facts." },
-  { title: "Day 15: Emoji Story Day", desc: "Create a story using emojis as prompts." },
-  { title: "Day 16: Job Interview Role-Play", desc: "Answer common job interview questions." },
-  { title: "Day 17: Fix My English", desc: "Review your video for grammar mistakes." },
-  { title: "Day 18: React to Funny Video", desc: "Watch a funny clip and explain your reaction." },
-  { title: "Day 19: Mystery Object Game", desc: "Describe an object without naming it." },
-  { title: "Day 20: Describe Last Video", desc: "Retell a video you watched recently." },
-  { title: "Day 21: Talk with AI (Voice Mode)", desc: "Have a full spoken conversation using AI." },
-  { title: "Day 22: Audio Diary Entry", desc: "Speak about your full day and emotions." },
-  { title: "Day 23: Translate Emotion", desc: "Describe an emotional clip or scene." },
-  { title: "Day 24: Would You Rather Game", desc: "Answer with full explanations." },
-  { title: "Day 25: Give Life Advice", desc: "Pretend to help someone with a problem." },
-  { title: "Day 26: Describe a Dream", desc: "Share a weird or fun dream." },
-  { title: "Day 27: Voice Note Swap", desc: "Exchange feedback with a partner or AI." },
-  { title: "Day 28: Create a Mini Story", desc: "Invent and speak a short story." },
-  { title: "Day 29: React to News Headline", desc: "Share your opinion on a real headline." },
-  { title: "Day 30: Your Fluency Show!", desc: "Record a full 3-minute natural talk." }
-];
-
-let currentDay = parseInt(localStorage.getItem('currentDay')) || 1;
-
-function loadDay() {
-  const task = tasks[currentDay - 1];
-  document.getElementById('day-info').innerText = `Day ${currentDay}`;
-  document.getElementById('today-date').innerText = new Date().toDateString();
-  document.getElementById('task-title').innerText = `${task.title}: ${task.desc}`;
-  const entryKey = `day${currentDay}-entry`;
-  document.getElementById('entry').value = localStorage.getItem(entryKey) || '';
-
-  document.getElementById('feedback-prompt').value =
-`✅ Please analyze:
+  <h3>✅ Feedback Prompt</h3>
+  <textarea readonly id="feedback-prompt">✅ Please analyze:
 What mistakes did I make in each part?
 Corrected sentences with explanation
 How can I improve next time?
-🎯 Help me become fluent and accurate step by step. Don’t skip small errors. Give me structured corrections and learning tips.`;
+🎯 Help me become fluent and accurate step by step. Don’t skip small errors. Give me structured corrections and learning tips.</textarea>
 
-  document.getElementById('workbook-prompt').value =
-`📘 Based on my mistakes today, please create a short personalized workbook exercise:
-- Fill in the blanks
-- Choose the correct option
-- Rewrite the incorrect sentences
-Make sure it’s based on MY mistakes only, not generic.`;
-}
+  <h3>📘 Practice Workbook Prompt (based on mistakes)</h3>
+  <textarea readonly id="practice-prompt">📘 Based on the mistakes I made today, please generate a fill-in-the-blank exercise or short quiz to help me review. Focus on my weak areas and grammar or vocabulary mistakes.</textarea>
 
-function markComplete() {
-  localStorage.setItem(`day${currentDay}-entry`, document.getElementById('entry').value);
-  alert('✅ Saved! Day marked complete.');
-}
+  <div style="margin-top: 20px;">
+    <button onclick="saveDay()">💾 Save</button>
+    <button onclick="prevDay()">⬅️ Previous</button>
+    <button onclick="nextDay()">Next ➡️</button>
+    <button onclick="downloadPDF()">📄 Export PDF</button>
+  </div>
 
-function nextDay() {
-  if (currentDay < 30) {
-    currentDay++;
-    localStorage.setItem('currentDay', currentDay);
+  <script>
+    const tasks = [
+      "Day 1: Self-Reflection in English",
+      "Day 2: Shadowing a TED Talk",
+      "Day 3: Describe Your Room Challenge",
+      "Day 4: Real-Life Dialogue Simulation",
+      "Day 5: Story Retelling",
+      "Day 6: Tongue Twisters",
+      "Day 7: Movie Clip Dubbing",
+      "Day 8: English Rant Day",
+      "Day 9: 3-Minute English Challenge",
+      "Day 10: Mimic Native Emotions",
+      "Day 11: Speak Like a Teacher",
+      "Day 12: WhatsApp Voice Notes Day",
+      "Day 13: Debate Practice",
+      "Day 14: Podcast + 5 Facts",
+      "Day 15: Emoji Story Day",
+      "Day 16: Role-Play: Job Interview",
+      "Day 17: Fix My English",
+      "Day 18: Watch & React",
+      "Day 19: Mystery Object Game",
+      "Day 20: Describe the Last Video You Watched",
+      "Day 21: Talk with AI (ChatGPT voice mode)",
+      "Day 22: Audio Diary Entry",
+      "Day 23: Translate Emotion",
+      "Day 24: Fun Debate Game (Would You Rather)",
+      "Day 25: Life Advice in English",
+      "Day 26: Describe a Dream",
+      "Day 27: Voice Note Swap",
+      "Day 28: Mini Story Creation",
+      "Day 29: React to News Headline",
+      "Day 30: Your Fluency Show!"
+    ];
+
+    let currentDay = parseInt(localStorage.getItem('currentDay')) || 1;
+
+    function loadDay() {
+      document.getElementById('day-info').innerText = `Day ${currentDay}`;
+      document.getElementById('today-date').innerText = new Date().toDateString();
+      document.getElementById('task-desc').innerHTML = `<h3>${tasks[currentDay - 1]}</h3>`;
+      document.getElementById('daily-text').value = localStorage.getItem(`day${currentDay}-entry`) || "";
+    }
+
+    function saveDay() {
+      localStorage.setItem(`day${currentDay}-entry`, document.getElementById('daily-text').value);
+      localStorage.setItem('currentDay', currentDay);
+      alert("Saved ✅");
+    }
+
+    function nextDay() {
+      if (currentDay < 30) {
+        currentDay++;
+        loadDay();
+      } else {
+        alert("🎉 You've completed all 30 days!");
+      }
+    }
+
+    function prevDay() {
+      if (currentDay > 1) {
+        currentDay--;
+        loadDay();
+      }
+    }
+
+    async function downloadPDF() {
+      const content = `30-Day English Challenge\nDay ${currentDay}: ${tasks[currentDay - 1]}\n\nYour Entry:\n${document.getElementById('daily-text').value}\n\n---\n${document.getElementById('feedback-prompt').value}\n\n---\n${document.getElementById('practice-prompt').value}`;
+
+      const blob = new Blob([content], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `day${currentDay}_english_challenge.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
     loadDay();
-  }
-}
-function prevDay() {
-  if (currentDay > 1) {
-    currentDay--;
-    localStorage.setItem('currentDay', currentDay);
-    loadDay();
-  }
-}
-
-function exportPDF() {
-  const text = `My English Workbook – Day ${currentDay}\n\n${document.getElementById('task-title').innerText}\n\n---\n\n${document.getElementById('entry').value}\n\n---\nFeedback Prompt:\n${document.getElementById('feedback-prompt').value}\n\nPractice Prompt:\n${document.getElementById('workbook-prompt').value}`;
-
-  const blob = new Blob([text], { type: 'application/pdf' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = `EnglishWorkbook-Day${currentDay}.pdf`;
-  link.click();
-}
-
-window.onload = loadDay;
-</script>
-
+  </script>
 </body>
 </html>
