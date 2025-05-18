@@ -1,124 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My English Workbook</title>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1A73E8" />
+  <title>My English Workbook</title>
+  <link rel="manifest" href="manifest.json" />
   <style>
     body {
       font-family: sans-serif;
+      margin: 0;
       padding: 16px;
-      max-width: 600px;
-      margin: auto;
-      background: #f8f8f8;
+      background: #fefefe;
+      color: #333;
     }
     h2, h3 {
       color: #1A73E8;
     }
     textarea {
       width: 100%;
-      min-height: 100px;
+      min-height: 80px;
+      margin-bottom: 16px;
       padding: 10px;
-      margin-bottom: 20px;
       font-size: 16px;
-      border-radius: 8px;
+      border-radius: 6px;
       border: 1px solid #ccc;
-      box-sizing: border-box;
     }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 6px;
-      margin-top: 16px;
-    }
-    .subtext {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 6px;
-    }
-    pre {
-      background: #fff;
+    button {
+      background: #1A73E8;
+      color: white;
+      border: none;
       padding: 12px;
-      border: 1px dashed #ccc;
-      white-space: pre-wrap;
-      font-size: 14px;
-      margin-top: 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      margin: 5px 5px 10px 0;
     }
+    button:hover {
+      background: #0f5bd8;
+    }
+    .small { font-size: 14px; color: #777; }
   </style>
 </head>
 <body>
 
-  <h2>📘 Daily English Workbook</h2>
-  <p><strong>Day:</strong> <span id="today-date"></span></p>
+<h2>📘 My English Workbook – <span id="day-info"></span></h2>
+<p class="small" id="task-title"></p>
+<p class="small">📅 <span id="today-date"></span></p>
+<hr />
 
-  <label for="warmup">🟢 Part 1: Warm-Up</label>
-  <div class="subtext">Write 3 things you're grateful for, 3 things you want to improve, and your mood.</div>
-  <textarea id="warmup" placeholder="Example: I’m grateful for ... I want to improve ... I feel ..."></textarea>
+<h3>🟢 Daily Practice</h3>
+<textarea id="entry" placeholder="Write here your answers for today...\n- What are you grateful for?\n- What video/topic did you listen to?\n- 5 Words or phrases?\n- Your speaking practice?\n- Challenge answer and any mistakes?\n... Everything in one place!"></textarea>
 
-  <label for="listening">🟢 Part 2: Listening Practice</label>
-  <div class="subtext">Write the video/topic, 5 phrases you heard, a summary, and any questions.</div>
-  <textarea id="listening" placeholder="I watched... I heard... The summary is... I wonder if..."></textarea>
+<h3>✅ Feedback Prompt</h3>
+<textarea readonly id="feedback-prompt"></textarea>
 
-  <label for="speaking">🟢 Part 3: Speaking Practice</label>
-  <div class="subtext">Write today’s topic, what you said, and if it was difficult.</div>
-  <textarea id="speaking" placeholder="I spoke about... It was (not) hard because..."></textarea>
+<h3>🧠 Practice Prompt</h3>
+<textarea readonly id="workbook-prompt"></textarea>
 
-  <label for="fun">🟢 Part 4: Fun Challenge</label>
-  <div class="subtext">Write the type of challenge, your answer, and any words you struggled with.</div>
-  <textarea id="fun" placeholder="Today I tried... It was... The hard words were..."></textarea>
+<button onclick="markComplete()">✔️ Mark Complete</button>
+<button onclick="prevDay()">⬅️ Previous Day</button>
+<button onclick="nextDay()">Next Day ➡️</button>
+<button onclick="exportPDF()">📄 Export to PDF</button>
 
-  <h3>🧠 Prompt to Copy for Feedback (AI)</h3>
-  <pre id="feedback-prompt">
-Please analyze my English workbook answers below.
+<script>
+const tasks = [
+  { title: "Day 1: Self-Reflection in English", desc: "Journal your feelings, describe your day." },
+  { title: "Day 2: Shadow a TED Talk", desc: "Mimic native speech from a TED clip." },
+  { title: "Day 3: Describe Your Room", desc: "Practice describing your surroundings." },
+  { title: "Day 4: Real-Life Dialogue Simulation", desc: "Repeat both characters from a short video." },
+  { title: "Day 5: Story Retelling", desc: "Retell a video story in your own words." },
+  { title: "Day 6: Tongue Twisters", desc: "Practice fast, tricky sentences." },
+  { title: "Day 7: Movie Clip Dubbing", desc: "Mute and dub a movie scene in English." },
+  { title: "Day 8: English Rant", desc: "Rant about your day or annoyances in English." },
+  { title: "Day 9: 3-Minute Challenge", desc: "Talk for 3 minutes without stopping." },
+  { title: "Day 10: Mimic Emotions", desc: "Match the emotion and tone from a native speaker." },
+  { title: "Day 11: Speak Like a Teacher", desc: "Teach a simple topic in English." },
+  { title: "Day 12: WhatsApp Voice Notes", desc: "Record yourself talking like a message to a friend." },
+  { title: "Day 13: Debate Practice", desc: "Argue a topic from both sides." },
+  { title: "Day 14: Podcast + 5 Facts", desc: "Listen to a podcast, write 5 facts." },
+  { title: "Day 15: Emoji Story Day", desc: "Create a story using emojis as prompts." },
+  { title: "Day 16: Job Interview Role-Play", desc: "Answer common job interview questions." },
+  { title: "Day 17: Fix My English", desc: "Review your video for grammar mistakes." },
+  { title: "Day 18: React to Funny Video", desc: "Watch a funny clip and explain your reaction." },
+  { title: "Day 19: Mystery Object Game", desc: "Describe an object without naming it." },
+  { title: "Day 20: Describe Last Video", desc: "Retell a video you watched recently." },
+  { title: "Day 21: Talk with AI (Voice Mode)", desc: "Have a full spoken conversation using AI." },
+  { title: "Day 22: Audio Diary Entry", desc: "Speak about your full day and emotions." },
+  { title: "Day 23: Translate Emotion", desc: "Describe an emotional clip or scene." },
+  { title: "Day 24: Would You Rather Game", desc: "Answer with full explanations." },
+  { title: "Day 25: Give Life Advice", desc: "Pretend to help someone with a problem." },
+  { title: "Day 26: Describe a Dream", desc: "Share a weird or fun dream." },
+  { title: "Day 27: Voice Note Swap", desc: "Exchange feedback with a partner or AI." },
+  { title: "Day 28: Create a Mini Story", desc: "Invent and speak a short story." },
+  { title: "Day 29: React to News Headline", desc: "Share your opinion on a real headline." },
+  { title: "Day 30: Your Fluency Show!", desc: "Record a full 3-minute natural talk." }
+];
 
-1. Check and correct all grammar, word choice, and fluency issues in each part.
-2. Give the corrected version + explanation.
-3. Tell me how I can improve next time.
+let currentDay = parseInt(localStorage.getItem('currentDay')) || 1;
 
---- Warm-Up ---
-[Paste Part 1 here]
+function loadDay() {
+  const task = tasks[currentDay - 1];
+  document.getElementById('day-info').innerText = `Day ${currentDay}`;
+  document.getElementById('today-date').innerText = new Date().toDateString();
+  document.getElementById('task-title').innerText = `${task.title}: ${task.desc}`;
+  const entryKey = `day${currentDay}-entry`;
+  document.getElementById('entry').value = localStorage.getItem(entryKey) || '';
 
---- Listening Practice ---
-[Paste Part 2 here]
+  document.getElementById('feedback-prompt').value =
+`✅ Please analyze:
+What mistakes did I make in each part?
+Corrected sentences with explanation
+How can I improve next time?
+🎯 Help me become fluent and accurate step by step. Don’t skip small errors. Give me structured corrections and learning tips.`;
 
---- Speaking Practice ---
-[Paste Part 3 here]
-
---- Fun Challenge ---
-[Paste Part 4 here]
-
-Be specific and help me become fluent.
-  </pre>
-
-  <h3>📘 Prompt for Practice Workbook from My Mistakes</h3>
-  <pre id="workbook-prompt">
-Based on my mistakes today, create personalized practice exercises like:
-
+  document.getElementById('workbook-prompt').value =
+`📘 Based on my mistakes today, please create a short personalized workbook exercise:
 - Fill in the blanks
-- Grammar rewrites
-- Error spotting
+- Choose the correct option
+- Rewrite the incorrect sentences
+Make sure it’s based on MY mistakes only, not generic.`;
+}
 
-Make it clear and helpful. Use my exact mistakes to test me.
-  </pre>
+function markComplete() {
+  localStorage.setItem(`day${currentDay}-entry`, document.getElementById('entry').value);
+  alert('✅ Saved! Day marked complete.');
+}
 
-  <script>
-    document.getElementById('today-date').textContent = new Date().toDateString();
+function nextDay() {
+  if (currentDay < 30) {
+    currentDay++;
+    localStorage.setItem('currentDay', currentDay);
+    loadDay();
+  }
+}
+function prevDay() {
+  if (currentDay > 1) {
+    currentDay--;
+    localStorage.setItem('currentDay', currentDay);
+    loadDay();
+  }
+}
 
-    const fields = ['warmup', 'listening', 'speaking', 'fun'];
-    fields.forEach(field => {
-      const el = document.getElementById(field);
-      el.value = localStorage.getItem(field) || '';
-      el.addEventListener('input', () => {
-        localStorage.setItem(field, el.value);
-      });
-    });
-  </script>
+function exportPDF() {
+  const text = `My English Workbook – Day ${currentDay}\n\n${document.getElementById('task-title').innerText}\n\n---\n\n${document.getElementById('entry').value}\n\n---\nFeedback Prompt:\n${document.getElementById('feedback-prompt').value}\n\nPractice Prompt:\n${document.getElementById('workbook-prompt').value}`;
+
+  const blob = new Blob([text], { type: 'application/pdf' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `EnglishWorkbook-Day${currentDay}.pdf`;
+  link.click();
+}
+
+window.onload = loadDay;
+</script>
 
 </body>
 </html>
-
-
-
-
-
-
